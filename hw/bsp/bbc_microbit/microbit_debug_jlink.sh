@@ -6,9 +6,9 @@
 # to you under the Apache License, Version 2.0 (the
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
-#
+# 
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
+# 
 # Unless required by applicable law or agreed to in writing,
 # software distributed under the License is distributed on an
 # "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -22,21 +22,15 @@
 #  - BSP_PATH is absolute path to hw/bsp/bsp_name
 #  - BIN_BASENAME is the path to prefix to target binary,
 #    .elf appended to name is the ELF file
-#  - IMAGE_SLOT is the image slot to download to (for non-mfg-image, non-boot)
 #  - FEATURES holds the target features string
 #  - EXTRA_JTAG_CMD holds extra parameters to pass to jtag software
-#  - MFG_IMAGE is "1" if this is a manufacturing image
-#  - FLASH_OFFSET contains the flash offset to download to
-#  - BOOT_LOADER is set if downloading a bootloader
+#  - RESET set if target should be reset when attaching
+#  - NO_GDB set if we should not start gdb to debug
+#
 
-. $CORE_PATH/hw/scripts/openocd.sh
+. $CORE_PATH/hw/scripts/jlink.sh
 
-CFG="-f interface/cmsis-dap.cfg -f target/nrf51.cfg"
+FILE_NAME=$BIN_BASENAME.elf
+JLINK_DEV="nRF51422_xxAC"
 
-if [ "$MFG_IMAGE" ]; then
-    FLASH_OFFSET=0
-fi
-
-common_file_to_load
-openocd_load
-openocd_reset_run
+jlink_debug

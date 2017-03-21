@@ -29,14 +29,13 @@
 #  - FLASH_OFFSET contains the flash offset to download to
 #  - BOOT_LOADER is set if downloading a bootloader
 
-. $CORE_PATH/hw/scripts/openocd.sh
-
-CFG="-f interface/cmsis-dap.cfg -f target/nrf51.cfg"
+. $CORE_PATH/hw/scripts/jlink.sh
 
 if [ "$MFG_IMAGE" ]; then
-    FLASH_OFFSET=0
+    FLASH_OFFSET=0x0
 fi
 
+JLINK_DEV="nRF51422_xxAC"
+
 common_file_to_load
-openocd_load
-openocd_reset_run
+jlink_load
